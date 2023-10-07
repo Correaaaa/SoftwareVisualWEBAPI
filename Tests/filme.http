@@ -2,12 +2,7 @@
 GET https://localhost:7048/api/filmes
 
 ### Obter um filme específico pelo ID
-GET https://localhost:7048/api/filmes/1
-Content-Type: application/json
-
-{
-    "id" : 1
-}
+GET https://localhost:7048/api/filmes/2
 
 ### Cadastrar um novo filme
 POST https://localhost:7048/api/filmes
@@ -20,19 +15,14 @@ Content-Type: application/json
 }
 
 ### Atualizar um filme existente pelo ID
-PUT https://localhost:7048/api/filmes/1
+PUT https://localhost:7048/api/filmes/6
 Content-Type: application/json
 
 {
-    "titulo" : "Novo Título",
-    "diretor" : "Novo Diretor",
-    "anolancamento" : "2022"
+    "titulo" : "Avatar",
+    "diretor" : "James Cameron",
+    "anolancamento" : "2009"
 }
 
 ### Excluir um filme pelo ID
-DELETE https://localhost:7048/api/filmes/1
-Content-Type: application/json
-
-{
-    "id" : 1
-}
+DELETE https://localhost:7048/api/filmes/5
