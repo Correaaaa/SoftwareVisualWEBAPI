@@ -1,0 +1,38 @@
+### Listar filmes
+GET https://localhost:7048/api/filmes
+
+### Obter um filme específico pelo ID
+GET https://localhost:7048/api/filmes/1
+Content-Type: application/json
+
+{
+    "id" : 1
+}
+
+### Cadastrar um novo filme
+POST https://localhost:7048/api/filmes
+Content-Type: application/json
+
+{
+    "titulo" : "Titanic",
+    "diretor" : "James Cameron",
+    "anolancamento" : "1998"
+}
+
+### Atualizar um filme existente pelo ID
+PUT https://localhost:7048/api/filmes/1
+Content-Type: application/json
+
+{
+    "titulo" : "Novo Título",
+    "diretor" : "Novo Diretor",
+    "anolancamento" : "2022"
+}
+
+### Excluir um filme pelo ID
+DELETE https://localhost:7048/api/filmes/1
+Content-Type: application/json
+
+{
+    "id" : 1
+}

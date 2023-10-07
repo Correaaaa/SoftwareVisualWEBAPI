@@ -1,0 +1,31 @@
+### Listar clientes
+GET https://localhost:7048/api/clientes
+
+### Obter um cliente específico pelo ID
+GET https://localhost:7048/api/clientes/1
+
+### Cadastrar um novo cliente
+POST https://localhost:7048/api/clientes
+Content-Type: application/json
+
+{
+    "nome" : "Nome do Cliente",
+    "email" : "cliente@email.com"
+}
+
+### Atualizar um cliente existente pelo ID
+PUT https://localhost:7048/api/clientes/1
+Content-Type: application/json
+
+{
+    "nome" : "Novo Nome do Cliente",
+    "email" : "novo@email.com"
+}
+
+### Excluir um cliente pelo ID
+DELETE https://localhost:7048/api/clientes/1
+Content-Type: application/json
+
+{
+    "id" : 1
+}
