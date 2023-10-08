@@ -48,22 +48,23 @@ namespace Locadora.Controllers
         }
 
         [HttpPut("{id}")]
-public async Task<IActionResult> PutCliente(int id, [FromBody] Cliente novoCliente)
-{
-    var cliente = await _context.Clientes.FindAsync(id);
+        public async Task<IActionResult> PutCliente(int id, [FromBody] Cliente novoCliente)
+        {
+            var cliente = await _context.Clientes.FindAsync(id);
 
-    if (cliente == null)
-    {
-        return NotFound();
-    }
+            if (cliente == null)
+            {
+                return NotFound();
+            }
 
-    cliente.Nome = novoCliente.Nome;
-    cliente.Email = novoCliente.Email;
+            cliente.Nome = novoCliente.Nome;
+            cliente.Email = novoCliente.Email;
+            cliente.Idade = novoCliente.Idade;
 
-    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-    return NoContent();
-}
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)

@@ -48,23 +48,24 @@ namespace Locadora.Controllers
         }
 
         [HttpPut("{id}")]
-public async Task<IActionResult> PutFilme(int id, [FromBody] Filme novoFilme)
-{
-    var filme = await _context.Filmes.FindAsync(id);
+        public async Task<IActionResult> PutFilme(int id, [FromBody] Filme novoFilme)
+        {
+            var filme = await _context.Filmes.FindAsync(id);
 
-    if (filme == null)
-    {
-        return NotFound();
-    }
+            if (filme == null)
+            {
+                return NotFound();
+            }
 
-    filme.Titulo = novoFilme.Titulo;
-    filme.Diretor = novoFilme.Diretor;
-    filme.AnoLancamento = novoFilme.AnoLancamento;
+            filme.Titulo = novoFilme.Titulo;
+            filme.Diretor = novoFilme.Diretor;
+            filme.AnoLancamento = novoFilme.AnoLancamento;
+            filme.ClassificacaoEtaria = novoFilme.ClassificacaoEtaria;
 
-    await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-    return NoContent();
-}
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFilme(int id)

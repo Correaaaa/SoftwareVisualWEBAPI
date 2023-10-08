@@ -2,29 +2,27 @@
 GET https://localhost:7048/api/emprestimos
 
 ### Obter um empréstimo específico pelo ID
-GET https://localhost:7048/api/emprestimos/4
+GET https://localhost:7048/api/emprestimos/10
 
 ### Cadastrar um novo empréstimo
 POST https://localhost:7048/api/emprestimos
 Content-Type: application/json
 
 {
-    "clienteId" : 3,
-    "filmeId" : 4,
-    "dataEmprestimo" : "2023-10-16",
-    "dataDevolucao" : "2023-10-26"
+    "clienteId" : 10,
+    "filmeId" : 11,
+    "dataEmprestimo" : "2050-10-16",
+    "dataDevolucao" : "2050-10-26"
 }
 
-### Atualizar um empréstimo existente pelo ID
-PUT https://localhost:7048/api/emprestimos/1
+### Atualizar as datas de um empréstimo existente pelo ID
+PUT https://localhost:7048/api/emprestimos/10
 Content-Type: application/json
 
 {
-    "clienteId" : 2,
-    "filmeId" : 2,
-    "dataEmprestimo" : "2050-11-01",
-    "dataDevolucao" : "2023-11-10"
+    "dataEmprestimo": "2023-10-16T00:00:00",
+    "dataDevolucao": "2024-10-30T12:00:00"
 }
 
 ### Excluir um empréstimo pelo ID
-DELETE https://localhost:7048/api/emprestimos/2
+DELETE https://localhost:7048/api/emprestimos/8

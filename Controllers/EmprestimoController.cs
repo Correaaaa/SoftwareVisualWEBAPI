@@ -20,15 +20,41 @@ namespace Locadora.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Emprestimo>>> GetEmprestimos()
+        public async Task<ActionResult<IEnumerable<object>>> GetEmprestimos()
         {
-            return await _context.Emprestimos.ToListAsync();
+            var emprestimos = await _context.Emprestimos
+                .Include(e => e.Cliente)
+                .Include(e => e.Filme)
+                .Select(e => new
+                {
+                    Id = e.Id,
+                    ClienteNome = e.Cliente.Nome,
+                    FilmeNome = e.Filme.Titulo,
+                    DataEmprestimo = e.DataEmprestimo,
+                    DataDevolucao = e.DataDevolucao
+                })
+                .ToListAsync();
+
+            return emprestimos;
         }
 
+
         [HttpGet("{id}")]
-        public async Task<ActionResult<Emprestimo>> GetEmprestimo(int id)
+        public async Task<ActionResult<object>> GetEmprestimo(int id)
         {
-            var emprestimo = await _context.Emprestimos.FindAsync(id);
+            var emprestimo = await _context.Emprestimos
+                .Where(e => e.Id == id)
+                .Include(e => e.Cliente)
+                .Include(e => e.Filme)
+                .Select(e => new
+                {
+                    Id = e.Id,
+                    ClienteNome = e.Cliente.Nome,
+                    FilmeNome = e.Filme.Titulo,
+                    DataEmprestimo = e.DataEmprestimo,
+                    DataDevolucao = e.DataDevolucao
+                })
+                .FirstOrDefaultAsync();
 
             if (emprestimo == null)
             {
@@ -38,58 +64,55 @@ namespace Locadora.Controllers
             return emprestimo;
         }
 
+
         [HttpPost]
         public async Task<ActionResult<Emprestimo>> PostEmprestimo(Emprestimo emprestimo)
         {
-    // Verificar se o Cliente e o Filme existem no banco de dados
-    var cliente = await _context.Clientes.FindAsync(emprestimo.ClienteId);
-    var filme = await _context.Filmes.FindAsync(emprestimo.FilmeId);
+            // Verificar se o Cliente e o Filme existem no banco de dados
+            var cliente = await _context.Clientes.FindAsync(emprestimo.ClienteId);
+            var filme = await _context.Filmes.FindAsync(emprestimo.FilmeId);
 
-    // Verificar se o Cliente e o Filme são válidos
-    if (cliente == null || filme == null)
-    {
-        return BadRequest("Cliente ou Filme não encontrados.");
-    }
+            // Verificar se o Cliente e o Filme são válidos
+            if (cliente == null || filme == null)
+            {
+                return BadRequest("Cliente ou Filme não encontrados.");
+            }
 
-    // Carregar o Cliente e o Filme relacionados
-    emprestimo.Cliente = cliente;
-    emprestimo.Filme = filme;
+            // Verificar se o cliente atende aos requisitos de idade para o filme
+            if (cliente.Idade < filme.ClassificacaoEtaria)
+            {
+                return BadRequest("O cliente não atende aos requisitos de idade para este filme.");
+            }
 
-    _context.Emprestimos.Add(emprestimo);
-    await _context.SaveChangesAsync();
+            // Carregar o Cliente e o Filme relacionados
+            emprestimo.Cliente = cliente;
+            emprestimo.Filme = filme;
 
-    return CreatedAtAction("GetEmprestimo", new { id = emprestimo.Id }, emprestimo);
-    }
+            _context.Emprestimos.Add(emprestimo);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetEmprestimo", new { id = emprestimo.Id }, emprestimo);
+        }
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmprestimo(int id, Emprestimo emprestimo)
+        public async Task<IActionResult> PutEmprestimo(int id, [FromBody] Emprestimo novoEmprestimo)
         {
-            if (id != emprestimo.Id)
+            var emprestimo = await _context.Emprestimos.FindAsync(id);
+
+            if (emprestimo == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(emprestimo).State = EntityState.Modified;
+            emprestimo.DataEmprestimo = novoEmprestimo.DataEmprestimo;
+            emprestimo.DataDevolucao = novoEmprestimo.DataDevolucao;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmprestimoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmprestimo(int id)

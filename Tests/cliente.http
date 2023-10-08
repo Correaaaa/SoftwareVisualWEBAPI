@@ -10,15 +10,17 @@ Content-Type: application/json
 
 {
     "nome" : "cliente 5",
+    "idade" : 13,
     "email" : "cliente5@email.com"
 }
 
 ### Atualizar um cliente existente pelo ID
-PUT https://localhost:7048/api/clientes/9
+PUT https://localhost:7048/api/clientes/10
 Content-Type: application/json
 
 {
     "nome" : "Felipe Correa",
+    "idade" : 16,
     "email" : "felipe@gmail.com"
 }
 
