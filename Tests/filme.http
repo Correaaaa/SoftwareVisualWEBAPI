@@ -11,18 +11,18 @@ Content-Type: application/json
 {
     "titulo" : "Titanic",
     "diretor" : "James Cameron",
-    "anolancamento" : "1998"
+    "anolancamento" : 1998
 }
 
 ### Atualizar um filme existente pelo ID
-PUT https://localhost:7048/api/filmes/6
+PUT https://localhost:7048/api/filmes/10
 Content-Type: application/json
 
 {
-    "titulo" : "Avatar",
-    "diretor" : "James Cameron",
-    "anolancamento" : "2009"
+    "titulo" : "a origem",
+    "diretor" : "Christopher Nolan",
+    "anolancamento" : 2006
 }
 
 ### Excluir um filme pelo ID
-DELETE https://localhost:7048/api/filmes/5
+DELETE https://localhost:7048/api/filmes/6

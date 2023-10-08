@@ -48,33 +48,23 @@ namespace Locadora.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFilme(int id, Filme filme)
-        {
-            if (id != filme.Id)
-            {
-                return BadRequest();
-            }
+public async Task<IActionResult> PutFilme(int id, [FromBody] Filme novoFilme)
+{
+    var filme = await _context.Filmes.FindAsync(id);
 
-            _context.Entry(filme).State = EntityState.Modified;
+    if (filme == null)
+    {
+        return NotFound();
+    }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FilmeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+    filme.Titulo = novoFilme.Titulo;
+    filme.Diretor = novoFilme.Diretor;
+    filme.AnoLancamento = novoFilme.AnoLancamento;
 
-            return NoContent();
-        }
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFilme(int id)

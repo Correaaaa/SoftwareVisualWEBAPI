@@ -48,33 +48,22 @@ namespace Locadora.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Cliente cliente)
-        {
-            if (id != cliente.Id)
-            {
-                return BadRequest();
-            }
+public async Task<IActionResult> PutCliente(int id, [FromBody] Cliente novoCliente)
+{
+    var cliente = await _context.Clientes.FindAsync(id);
 
-            _context.Entry(cliente).State = EntityState.Modified;
+    if (cliente == null)
+    {
+        return NotFound();
+    }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClienteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+    cliente.Nome = novoCliente.Nome;
+    cliente.Email = novoCliente.Email;
 
-            return NoContent();
-        }
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)

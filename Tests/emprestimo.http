@@ -2,7 +2,7 @@
 GET https://localhost:7048/api/emprestimos
 
 ### Obter um empréstimo específico pelo ID
-GET https://localhost:7048/api/emprestimos/1
+GET https://localhost:7048/api/emprestimos/4
 
 ### Cadastrar um novo empréstimo
 POST https://localhost:7048/api/emprestimos

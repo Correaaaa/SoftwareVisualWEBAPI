@@ -10,12 +10,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicione o serviço de banco de dados e configure o contexto do banco de dados
 builder.Services.AddDbContext<LocadoraDbContext>(
     options => options.UseSqlite("Data Source=locadora.db")
 );
 
-// Adicione controladores
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -25,7 +23,6 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
-// Configure o HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
